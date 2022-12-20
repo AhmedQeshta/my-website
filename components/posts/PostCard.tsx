@@ -12,15 +12,23 @@ function PostCard({ post }: IPost): JSX.Element {
     [theme],
   );
 
-  const { title, slug, author, caver, datePublished } = post ?? {};
+  const { id, title, slug, author, caver, datePublished } = post ?? {};
   const { url, width, height } = caver ?? {};
   const { avatar, name } = author ?? {};
   const { urlAuthor, widthAuthor, heightAuthor } = avatar ?? {};
   return (
-    <div className={`flex rounded-2xl ease-in-out  duration-300 hover:shadow-xl hover:shadow-purple-400 ${styleMode}`}>
+    <div
+      className={`flex rounded-2xl ease-in-out  duration-300 hover:shadow-xl hover:shadow-purple-400 ${styleMode}`}>
       <Link href={`/posts/${slug}`}>
         <div className="rounded-md">
-          <Image className="rounded-t-2xl" src={url} alt={title} width={width} height={height} />
+          <Image
+            className="rounded-t-2xl h-[20vh] object-cover object-top"
+            src={url}
+            alt={title}
+            width={width}
+            height={height}
+            priority
+          />
         </div>
 
         <div className="flex flex-col p-4">

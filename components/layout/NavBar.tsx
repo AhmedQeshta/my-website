@@ -27,7 +27,7 @@ function NavBar(): JSX.Element {
         </li>
 
         <li className="text-lg font-bold mx-2">
-           <Link href="/blog">Blog</Link>
+           <Link href="/posts">Blog</Link>
         </li>
 
         <li className="text-sm font-bold ml-2">

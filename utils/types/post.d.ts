@@ -42,3 +42,10 @@ export interface IPostsProps {
 export interface IPost {
   post: Object<Post>;
 }
+
+export interface ISinglePostParams {
+  params: {
+    slug: string;
+  };
+}
+

@@ -1,2 +1,2 @@
-export type { IPostsProps, IPost } from './types';
-export { graphCMS, getPosts } from './graphQL';
+export type { IPostsProps, IPost, ISinglePostParams } from './types';
+export { graphCMS, getPosts, getPost, slugList } from './graphQL';

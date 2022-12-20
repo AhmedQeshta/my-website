@@ -1,1 +1,1 @@
-export type { IPostsProps, IPost } from './post';
+export type { IPostsProps, IPost, ISinglePostParams } from './post';

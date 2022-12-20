@@ -1,17 +1,16 @@
 import Head from 'next/head';
 import React from 'react';
 import { IPostsProps, getPosts, graphCMS } from '../../utils';
-import { PostLists } from '../../components';
+import { NotFound, PostLists } from '../../components';
 
 function Blogs({ posts }: IPostsProps) {
   return (
     <>
       <Head>
-        <title>Ahmed Qeshta</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Blogs</title>
       </Head>
       <div className="w-full px-[50px] md:px-[100px]">
-        <PostLists posts={posts}/>
+         {!!posts.length ?<PostLists posts={posts}/>: <NotFound/>}
       </div>
     </>
   );

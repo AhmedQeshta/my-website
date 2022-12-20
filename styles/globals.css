@@ -16,3 +16,12 @@
   background-color: #8352fd;
   color: white;
 }
+
+code {
+  background-color: #ececec;
+  color: rgb(39, 39, 39);
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  width: 100%;
+  padding: 15px auto;
+}
