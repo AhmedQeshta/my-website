@@ -21,7 +21,7 @@ function Blogs() {
       <div className="w-full px-[50px] md:px-[100px]">
         {isError && <div className="text-red-500">{message}</div>}
 
-        {!isError && !isLoading ? <PostLists posts={data}/> : <NotFound />}
+        {!isError && !isLoading ? <PostLists posts={data} /> : <NotFound />}
       </div>
     </>
   );
@@ -40,4 +40,3 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
-
