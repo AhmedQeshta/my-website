@@ -1,1 +1,1 @@
-export { getPosts, getPost, slugList } from './posts';
+export { getPosts,  getPost } from './posts';

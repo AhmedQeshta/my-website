@@ -1,75 +1,87 @@
 import Head from 'next/head';
 import React from 'react';
-import { getPost, graphCMS, IPost, ISinglePostParams, slugList } from '../../utils';
+import {
+  IQueryPostData,
+  ISinglePostParams,
+  getPost,
+} from '../../utils';
 import Image from 'next/image';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { useGetPost } from '../../hooks';
+import { useMemo } from 'react';
+import { NotFound } from '../../components';
 
-function Article({ post }: IPost) {
-  const { title, caver, content, author, datePublished } = post ?? {};
+function Article({ dehydratedState }: any) {
+  const { queries } = dehydratedState ?? {};
+  const slug = useMemo(() => queries[0].queryKey[1], [queries]);
+
+  const { data, isLoading, isError }: IQueryPostData = useGetPost(slug);
+
+  const { title = '', caver, content, author, datePublished } = data ?? {};
   const { url, width, height } = caver ?? {};
   const { name, avatar } = author ?? {};
+
+  if (isError || !data) {
+    return <NotFound />;
+  }
 
   return (
     <>
       <Head>
         <title>Blogs</title>
       </Head>
-      <div className="w-full px-[50px] md:px-[350px]">
-        <Image
-          className="w-full h-[40vh] object-cover rounded-md mb-5"
-          src={url}
-          width={width}
-          height={height}
-          alt={title}
-        />
+      <div className="w-full px-[50px] lg:px-[100px] xl:px-[300px]">
+        {!isLoading ? (
+          <>
+            <Image
+              className="w-full h-[60vh] object-fill rounded-md mb-5 bg-slate-200"
+              src={url}
+              width={width}
+              height={height}
+              alt={title}
+            />
 
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-2 items-center">
-              <Image
-                className="rounded-full w-10 object-cover"
-                src={avatar?.urlAuthor}
-                width={avatar?.widthAuthor}
-                height={avatar?.heightAuthor}
-                alt={name}
-              />
-              <h6>{name}</h6>
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2 items-center">
+                  <Image
+                    className="rounded-full w-10 object-cover"
+                    src={avatar?.urlAuthor}
+                    width={avatar?.widthAuthor}
+                    height={avatar?.heightAuthor}
+                    alt={name}
+                  />
+                  <h6>{name}</h6>
+                </div>
+
+                <p className="text-sm">{datePublished}</p>
+              </div>
+
+              <h1 className="text-4xl font-bold my-5 capitalize">{title}</h1>
             </div>
 
-            <p className="text-sm">{datePublished}</p>
-          </div>
-
-          <h1 className="text-4xl font-bold my-5 capitalize">{title}</h1>
-        </div>
-
-        <div dangerouslySetInnerHTML={{ __html: content?.html }} />
+            <div dangerouslySetInnerHTML={{ __html: content?.html }} />
+          </>
+        ) : (
+          <div>loading...</div>
+        )}
       </div>
     </>
   );
 }
 
-export async function getStaticPaths() {
-  const { posts } = await graphCMS.request(slugList);
-  return {
-    paths: posts?.map(({ slug }: { slug: string }) => ({
-      params: {
-        slug,
-      },
-    })),
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params }: ISinglePostParams) {
+export const getServerSideProps = async ({ params }: ISinglePostParams) => {
   const { slug } = params;
 
-  const { post } = await graphCMS.request(getPost, { slug });
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['post', slug], () => getPost({ slug }));
 
   return {
     props: {
-      post,
+      dehydratedState: dehydrate(queryClient),
     },
-    revalidate: 10,
   };
-}
+};
 
 export default Article;

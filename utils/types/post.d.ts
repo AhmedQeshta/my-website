@@ -1,3 +1,5 @@
+import { IQueryData } from './react-query';
+
 type Caver = {
   publishedAt: string;
   createdBy: {
@@ -15,7 +17,7 @@ type Author = {
     urlAuthor: string;
     widthAuthor: number;
     heightAuthor: number;
-  };  
+  };
 };
 
 type Content = {
@@ -49,3 +51,9 @@ export interface ISinglePostParams {
   };
 }
 
+export interface IQueryPostsData extends IQueryData {
+  data?: Post[];
+}
+export interface IQueryPostData extends IQueryData {
+  data?: Post;
+}

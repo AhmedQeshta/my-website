@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request';
+import graphQLClient from '../config';
 
-export const getPosts = gql`
+export const postsQuery = gql`
   query Posts {
     posts {
       createdAt
@@ -17,9 +18,9 @@ export const getPosts = gql`
         name
         id
         avatar {
-          urlAuthor:url
-          widthAuthor:height
-          heightAuthor:width
+          urlAuthor: url
+          widthAuthor: height
+          heightAuthor: width
         }
       }
       caver {
@@ -35,7 +36,8 @@ export const getPosts = gql`
   }
 `;
 
-export const getPost = gql`
+
+const postQuery = gql`
   query Post($slug: String!) {
     post(where: { slug: $slug }) {
       createdAt
@@ -52,9 +54,9 @@ export const getPost = gql`
         name
         id
         avatar {
-          urlAuthor:url
-          widthAuthor:height
-          heightAuthor:width
+          urlAuthor: url
+          widthAuthor: height
+          heightAuthor: width
         }
       }
       caver {
@@ -71,10 +73,12 @@ export const getPost = gql`
 `;
 
 
-export const slugList = gql`
-  {
-    posts {
-      slug
-    }
-  }
-`;
+export const getPosts = async () => {
+  const { posts } = await graphQLClient.request(postsQuery);
+  return posts;
+};
+
+export const getPost = async ({ slug }: { slug: string }) => {
+  const { post } = await graphQLClient.request(postQuery, { slug });
+  return post;
+};

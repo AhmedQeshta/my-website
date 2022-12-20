@@ -13,7 +13,7 @@ function NavBar(): JSX.Element {
   );
 
   return (
-    <div className="flex justify-between items-center w-full px-[50px] py-[40px] md:px-[100px] md:py-[80px]">
+    <div className="flex justify-between items-center w-full px-[50px] py-[20px] md:px-[100px] md:py-[40px]">
       <div className="flex items-center">
         <div className="text-2xl font-bold">
           <Link href="/">A7med Qeshta</Link>

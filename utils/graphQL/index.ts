@@ -1,3 +1,3 @@
-export { default as graphCMS } from './config';
+export { default as graphQLClient } from './config';
 
-export { getPosts, getPost, slugList } from './queries';
+export {  getPosts, getPost } from './queries';
