@@ -1,10 +1,17 @@
 import Head from 'next/head';
 import React from 'react';
 import { IQueryPostsData, getPosts } from '../../utils';
-import { NotFound, PostLists } from '../../components';
 import { GetServerSideProps } from 'next';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useGetPosts } from '../../hooks';
+import dynamic from 'next/dynamic';
+
+const PostLists = dynamic(() => import('../../components/posts/PostLists'), {
+  loading: () => <div>Loading...</div>,
+});
+const NotFound = dynamic(() => import('../../components/ui/NotFound'), {
+  loading: () => <div>Loading...</div>,
+});
 
 function Blogs() {
   const { data = [], isLoading, isError, error }: IQueryPostsData = useGetPosts();
@@ -18,6 +25,7 @@ function Blogs() {
       <Head>
         <title>Blogs</title>
       </Head>
+
       <div className="w-full px-[50px] md:px-[100px]">
         {isError && <div className="text-red-500">{message}</div>}
 

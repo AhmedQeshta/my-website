@@ -1,16 +1,15 @@
 import Head from 'next/head';
 import React from 'react';
-import ReactMarkdown from "react-markdown";
-import {
-  IQueryPostData,
-  ISinglePostParams,
-  getPost,
-} from '../../utils';
+import dynamic from 'next/dynamic';
+import { IQueryPostData, ISinglePostParams, getPost } from '../../utils';
 import Image from 'next/image';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useGetPost } from '../../hooks';
 import { useMemo } from 'react';
-import { NotFound } from '../../components';
+
+const NotFound = dynamic(() => import('../../components/ui/NotFound'), {
+  loading: () => <div>Loading...</div>,
+});
 
 function Article({ dehydratedState }: any) {
   const { queries } = dehydratedState ?? {};
